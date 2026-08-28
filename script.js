@@ -1,15 +1,23 @@
-document.getElementById("registrationForm").addEventListener("submit", function(event) {
+const loginForm = document.getElementById("loginForm");
+const message = document.getElementById("message");
+
+loginForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
+    const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
-    const message = document.getElementById("message");
 
-    if (name && email && password) {
-        message.textContent = "Registration successful!";
+    if (email === "" || password === "") {
+        message.textContent = "Please enter email and password.";
+        message.style.color = "red";
+        return;
+    }
+
+    if (email === "user@example.com" && password === "123456") {
+        message.textContent = "Login successful!";
         message.style.color = "green";
-
-        document.getElementById("registrationForm").reset();
+    } else {
+        message.textContent = "Invalid email or password.";
+        message.style.color = "red";
     }
 });
