@@ -1,35 +1,7 @@
 /* =====================================================
    SHOP EASY - JAVASCRIPT
+   PBI-01 to PBI-04
    ===================================================== */
-
-
-/* =====================================================
-   LOGIN PROTECTION
-   ===================================================== */
-
-// Check whether the user is logged in
-function checkLogin() {
-
-    const currentPage =
-        window.location.pathname.split("/").pop();
-
-    const isLoggedIn =
-        localStorage.getItem("shopEasyLoggedIn");
-
-    // If user opens index.html without logging in,
-    // redirect to login page
-    if (
-        currentPage === "index.html" &&
-        isLoggedIn !== "true"
-    ) {
-
-        window.location.href = "login.html";
-
-        return false;
-    }
-
-    return true;
-}
 
 
 /* =====================================================
@@ -43,8 +15,7 @@ const products = [
         category: "Electronics",
         price: 19999,
         icon: "📱",
-        description:
-            "Modern smartphone with great features."
+        description: "Modern smartphone with great features."
     },
 
     {
@@ -52,8 +23,7 @@ const products = [
         category: "Electronics",
         price: 2499,
         icon: "🎧",
-        description:
-            "High-quality wireless headphones."
+        description: "High-quality wireless headphones."
     },
 
     {
@@ -61,8 +31,7 @@ const products = [
         category: "Electronics",
         price: 3999,
         icon: "⌚",
-        description:
-            "Track your activities and stay connected."
+        description: "Track your activities and stay connected."
     },
 
     {
@@ -70,8 +39,7 @@ const products = [
         category: "Electronics",
         price: 49999,
         icon: "💻",
-        description:
-            "Powerful laptop for work and study."
+        description: "Powerful laptop for work and study."
     },
 
     {
@@ -79,8 +47,7 @@ const products = [
         category: "Tyres",
         price: 2500,
         icon: "🛞",
-        description:
-            "Premium quality tyre for better performance."
+        description: "Premium quality tyre for better performance."
     },
 
     {
@@ -88,8 +55,7 @@ const products = [
         category: "Tyres",
         price: 1800,
         icon: "🛞",
-        description:
-            "Durable bike tyre for everyday use."
+        description: "Durable bike tyre for everyday use."
     },
 
     {
@@ -97,8 +63,7 @@ const products = [
         category: "Tubes",
         price: 500,
         icon: "🔵",
-        description:
-            "High-quality tube for tyres."
+        description: "High-quality tube for tyres."
     },
 
     {
@@ -106,8 +71,7 @@ const products = [
         category: "Puncture Repair",
         price: 250,
         icon: "🔧",
-        description:
-            "Useful kit for repairing tyre punctures."
+        description: "Useful kit for repairing tyre punctures."
     }
 
 ];
@@ -133,7 +97,7 @@ function displayProducts(productList) {
     }
 
 
-    // Clear old products
+    // Clear existing products
 
     productListElement.innerHTML = "";
 
@@ -179,6 +143,7 @@ function displayProducts(productList) {
         const productCard =
             document.createElement("div");
 
+
         productCard.className =
             "product-card";
 
@@ -222,7 +187,7 @@ function displayProducts(productList) {
     });
 
 
-    // Number of products found
+    // Display result count
 
     if (searchMessage) {
 
@@ -231,6 +196,104 @@ function displayProducts(productList) {
 
         searchMessage.style.color =
             "green";
+    }
+
+}
+
+
+/* =====================================================
+   PBI-04 - FILTER PRODUCTS BY CATEGORY
+   ===================================================== */
+
+function filterByCategory(categoryName) {
+
+    // Find products belonging to selected category
+
+    const filteredProducts =
+        products.filter(function(product) {
+
+            return product.category === categoryName;
+
+        });
+
+
+    // Display filtered products
+
+    displayProducts(filteredProducts);
+
+
+    // Update message
+
+    const searchMessage =
+        document.getElementById("searchMessage");
+
+
+    if (searchMessage) {
+
+        searchMessage.textContent =
+            `${categoryName}: ${filteredProducts.length} product(s) found.`;
+
+        searchMessage.style.color =
+            "green";
+    }
+
+
+    // Scroll to products section
+
+    const productsSection =
+        document.getElementById("products");
+
+
+    if (productsSection) {
+
+        productsSection.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+/* =====================================================
+   PBI-04 - SHOW ALL PRODUCTS
+   ===================================================== */
+
+function showAllProducts() {
+
+    // Display all products
+
+    displayProducts(products);
+
+
+    // Update message
+
+    const searchMessage =
+        document.getElementById("searchMessage");
+
+
+    if (searchMessage) {
+
+        searchMessage.textContent =
+            `${products.length} product(s) available.`;
+
+        searchMessage.style.color =
+            "green";
+    }
+
+
+    // Scroll to products section
+
+    const productsSection =
+        document.getElementById("products");
+
+
+    if (productsSection) {
+
+        productsSection.scrollIntoView({
+            behavior: "smooth"
+        });
+
     }
 
 }
@@ -251,13 +314,13 @@ function searchProducts() {
     }
 
 
+    // Get search text
+
     const searchText =
-        searchInput.value
-            .trim()
-            .toLowerCase();
+        searchInput.value.trim().toLowerCase();
 
 
-    // Empty search
+    // Empty search → show all products
 
     if (searchText === "") {
 
@@ -295,11 +358,24 @@ function searchProducts() {
         });
 
 
-    // Display results
+    // Display search results
 
-    displayProducts(
-        filteredProducts
-    );
+    displayProducts(filteredProducts);
+
+
+    // Scroll to products
+
+    const productsSection =
+        document.getElementById("products");
+
+
+    if (productsSection) {
+
+        productsSection.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
 
 }
 
@@ -321,6 +397,7 @@ function addToCart(productName) {
 
         cartMessage.style.color =
             "green";
+
     }
 
 }
@@ -343,6 +420,7 @@ function viewCart() {
 
         cartMessage.style.color =
             "black";
+
     }
 
 }
@@ -354,28 +432,26 @@ function viewCart() {
 
 function handleLogin(event) {
 
+    // Prevent page reload
+
     event.preventDefault();
 
 
     const email =
-        document.getElementById("email")
-            .value
-            .trim();
+        document.getElementById("email").value.trim();
+
 
     const password =
-        document.getElementById("password")
-            .value;
+        document.getElementById("password").value;
+
 
     const message =
         document.getElementById("message");
 
 
-    // Empty fields
+    // Check empty fields
 
-    if (
-        email === "" ||
-        password === ""
-    ) {
+    if (email === "" || password === "") {
 
         message.textContent =
             "Please enter email and password.";
@@ -394,56 +470,53 @@ function handleLogin(event) {
         password === "123456"
     ) {
 
-        // Save login status
-
-        localStorage.setItem(
-            "shopEasyLoggedIn",
-            "true"
-        );
-
-
         message.textContent =
-            "Login successful! Redirecting...";
+            "Login successful!";
 
         message.style.color =
             "green";
 
 
-        // Move to Home page
+        /*
+         * Hide login page
+         * Show home page
+         */
 
-        setTimeout(function() {
-
-            window.location.href =
-                "index.html";
-
-        }, 500);
+        const loginPage =
+            document.getElementById("loginPage");
 
 
-    } else {
+        const homePage =
+            document.getElementById("homePage");
+
+
+        if (loginPage) {
+
+            loginPage.style.display =
+                "none";
+
+        }
+
+
+        if (homePage) {
+
+            homePage.style.display =
+                "block";
+
+        }
+
+    }
+
+    else {
 
         message.textContent =
             "Invalid email or password.";
 
         message.style.color =
             "red";
+
     }
 
-}
-
-
-/* =====================================================
-   LOGOUT
-   ===================================================== */
-
-function logout() {
-
-    localStorage.removeItem(
-        "shopEasyLoggedIn"
-    );
-
-
-    window.location.href =
-        "login.html";
 }
 
 
@@ -457,49 +530,47 @@ document.addEventListener(
 
 
         /* ---------------------------------------------
-           LOGIN PAGE
+           LOGIN / HOME INITIAL STATE
            --------------------------------------------- */
 
-        const loginForm =
-            document.getElementById("loginForm");
+        const loginPage =
+            document.getElementById("loginPage");
 
-
-        if (loginForm) {
-
-            loginForm.addEventListener(
-                "submit",
-                handleLogin
-            );
-
-        }
-
-
-        /* ---------------------------------------------
-           HOME PAGE LOGIN PROTECTION
-           --------------------------------------------- */
 
         const homePage =
             document.getElementById("homePage");
 
 
+        /*
+         * Login page appears first.
+         * Home page stays hidden until successful login.
+         */
+
+        if (loginPage) {
+
+            loginPage.style.display =
+                "flex";
+
+        }
+
+
         if (homePage) {
 
-            if (!checkLogin()) {
-                return;
-            }
+            homePage.style.display =
+                "none";
 
         }
 
 
         /* ---------------------------------------------
-           Display Products
+           DISPLAY PRODUCTS
            --------------------------------------------- */
 
         displayProducts(products);
 
 
         /* ---------------------------------------------
-           Search Button
+           SEARCH BUTTON
            --------------------------------------------- */
 
         const searchButton =
@@ -517,7 +588,7 @@ document.addEventListener(
 
 
         /* ---------------------------------------------
-           Search with ENTER
+           SEARCH WITH ENTER KEY
            --------------------------------------------- */
 
         const searchInput =
@@ -530,9 +601,7 @@ document.addEventListener(
                 "keydown",
                 function(event) {
 
-                    if (
-                        event.key === "Enter"
-                    ) {
+                    if (event.key === "Enter") {
 
                         event.preventDefault();
 
@@ -547,13 +616,29 @@ document.addEventListener(
 
 
         /* ---------------------------------------------
-           View Cart Button
+           LOGIN FORM
+           --------------------------------------------- */
+
+        const loginForm =
+            document.getElementById("loginForm");
+
+
+        if (loginForm) {
+
+            loginForm.addEventListener(
+                "submit",
+                handleLogin
+            );
+
+        }
+
+
+        /* ---------------------------------------------
+           VIEW CART BUTTON
            --------------------------------------------- */
 
         const viewCartButton =
-            document.getElementById(
-                "viewCartButton"
-            );
+            document.getElementById("viewCartButton");
 
 
         if (viewCartButton) {
@@ -565,25 +650,6 @@ document.addEventListener(
 
         }
 
-
-        /* ---------------------------------------------
-           Logout Button
-           --------------------------------------------- */
-
-        const logoutButton =
-            document.getElementById(
-                "logoutButton"
-            );
-
-
-        if (logoutButton) {
-
-            logoutButton.addEventListener(
-                "click",
-                logout
-            );
-
-        }
 
     }
 );
